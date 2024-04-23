@@ -1,0 +1,17 @@
+Sample# If_natural
+0       False       
+1       True
+2       False
+3       True
+4       False
+5       False
+
+0 - Nienaturalny - niska entropia warunkowa słów która jest podobna dla 0 i 1 rzędu, oraz
+    w kolejnuch rzędacj bardzo szybko spada do 0
+1 - Naturalny - wyniki podobne do _so
+2 - Nienaturalny - niska entropia warunkowa słów która jest podobna dla 0 i 1 rzędu, oraz
+    w kolejnuch rzędacj bardzo szybko spada do 0
+3 - Naturalny - wyniki podobne do _nv
+4 - Nienaturalny - entropia warunkowa słów początkowo nieznacznie maleje, po czym gwałtownie
+    spada do 0. Takie zjawisko nie występowało w próbkach języków naturalnych.
+5 - Nienaturalny - entropia warunkowa słów 1 i kolejnych rzędów jest równa 0
