@@ -4,17 +4,12 @@ import math
 import json
 
 
-def createOld(freq_dict: dict) -> dict:
+def create(data: list) -> dict:
+    freq_dict = {item: count / len(data)
+                 for item, count in sorted(Counter(data).items(), key=lambda x: x[1], reverse=True)}
     code_format = "0" + str(math.ceil(math.log2(len(freq_dict)))) + "b"
     return {item: format(i, code_format)
             for i, item in enumerate(freq_dict)}
-
-
-def encodeOld(text, code) -> ba.bitarray:
-    encoded_text = ba.bitarray()
-    for letter in text:
-        encoded_text.extend(ba.bitarray(code[letter]))
-    return encoded_text
 
 
 def decodeOld(encoded_text, code) -> str:
@@ -48,29 +43,39 @@ def loadOld(filename):
     return code, encoded_text
 
 
-def load(file_path):
+def load(file_path) -> ba.bitarray:
     bit_array = ba.bitarray()
     with open(file_path, 'rb') as file:
         bit_array.fromfile(file)
     return bit_array
 
 
-def encode(bit_array: ba.bitarray):
-    code = [0, 1]
-
-    s = bit_array[0]
-    for c in bit_array[1:]:
-        if c in code:
-            s = s + c
-
-            continue
-
+def encode(bit_array: ba.bitarray) -> list:
+    output = []
+    lzw_code = ['0', '1']
+    s = str(bit_array[0])
+    for c in bit_array.to01()[1:]:
+        x = ''.join([s, c])
+        if x in lzw_code:
+            s = x
+        else:
+            output.append(lzw_code.index(s))
+            lzw_code.append(x)
+            s = c
+    output.append(lzw_code.index(s))
+    return output
 
 
 if __name__ == '__main__':
-    # my_filename = "test.txt"
-    # bit_array = load(my_filename)
-    my_bit_array = ba.bitarray("101001000")
-    encode(my_bit_array)
+    my_filename = "../data/norm_wiki_en.txt"
+    my_bit_array = load(my_filename)
+    # my_bit_array = ba.bitarray("101001000")
+    encoded_data = encode(my_bit_array)
+    print(encoded_data)
+    code = create(encoded_data)
+    print(code)
 
+
+
+# 1 0 2 3 0 6
 # 1 0 4 2 3 0 2
